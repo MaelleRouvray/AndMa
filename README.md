@@ -5,7 +5,7 @@ ConnectFour
 ## Partie 1
 tache 1.1
 
-1/ Les dimensions d'un plateau: 3D array (6,7,2) (row, col, channel)
+1/ Les dimensions d'un plateau: 3D array (6,7,2) (rows, cols, channels)
 
 2/ Un agent gagne la partie s'il aligne 4 de ses pions, il gagne 1 point et son adversaire perd un point ou si l'adversaire fait une action illégale: il gagne 0 point et l'advesaire perd un point.
 
