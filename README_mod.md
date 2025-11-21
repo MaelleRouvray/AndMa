@@ -46,43 +46,42 @@
 | _ | 0 | X | 0 | 0 | _ | _ |     diagonale droite  
 | 0 | X | 0 | X | 0 | _ | _ |   
 
-2/ 8 directions doivent être vérifiées pour une victoire.
+2/ 8 directions doivent être vérifiées pour une victoire.  
 
 3/
-choisir un point de départ 
-while "longueur < 4" et "toutes les directions non étudiées":
-    longueur=1
-    choisir une direction parmi les 8 (ou moins si on est sur un bord) possibles
-    avancer dans cette direction à partir du point de départ
-    while "la case est occupée par un pion du même type":
-        longueur +=1
-    prendre la direction opposée 
-    avancer dans cette direction à partir du point de départ
-    while "la case est occupée par un pion du même type":
-        longueur +=1
-if longueur==4 :
-    return "victoire"
-else:
-    return "pas  encore de victoire"
+choisir un point de départ   
+while "longueur < 4" et "toutes les directions non étudiées":  
+    longueur=1  
+    choisir une direction parmi les 8 (ou moins si on est sur un bord) possibles  
+    avancer dans cette direction à partir du point de départ  
+    while "la case est occupée par un pion du même type":  
+        longueur +=1  
+    prendre la direction opposée   
+    avancer dans cette direction à partir du point de départ  
+    while "la case est occupée par un pion du même type":  
+        longueur +=1  
+if longueur==4 :  
+    return "victoire"  
+else:  
+    return "pas  encore de victoire"  
 
 
-    # AndMa
-ConnectFour
+
 
 # Partie 2 
 ### Tache2.1
-1/ 'player_0' et 'player_1'
-2/ action est un set d'entiers de 0 à 6. Elle représente les colonnes où le jeton peut être placé. ?
-3/ env.agent_iter():
-   env.step(action):
-4/ 
-5/ 
-6/ action_mask regroupe les actions disponibles pour l'agent. C'est un vecteur binaire où chaque valeur indique si l'action est légale ou non. Si ce n'est pas le tour de l'agent, le vecteur est zéro. Il permet à l'agent de ne pas faire d'action illégale et donc de perdre des points.
+1/ 'player_0' et 'player_1'  
+2/ action est un set d'entiers de 0 à 6. Elle représente les colonnes où le jeton peut être placé. ?  
+3/ env.agent_iter():  
+   env.step(action):  
+4/   
+5/  
+6/ action_mask regroupe les actions disponibles pour l'agent. C'est un vecteur binaire où chaque valeur indique si l'action est légale ou non. Si ce n'est pas le tour de l'agent, le vecteur est zéro. Il permet à l'agent de ne pas faire d'action illégale et donc de perdre des points.  
 
 ### Tache 2.2
-1/ Le tableau d'observation est un tableau 2 * 6 lignes * 7 colonnes.
-2/ premier tableau de 6*7 représente le plateau du joueur player_0 et le deuxième tableau représente le plateau du joueur player_1
-3/ 0 ou 1?
+1/ Le tableau d'observation est un tableau 2 * 6 lignes * 7 colonnes.  
+2/ premier tableau de 6*7 représente le plateau du joueur player_0 et le deuxième tableau représente le plateau du joueur player_1.  
+3/ 0 ou 1?  
 
 ### Tache 2.3
 ```from pettingzoo.classic import connect_four_v3
