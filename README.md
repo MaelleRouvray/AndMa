@@ -1,10 +1,14 @@
 # AndMa
 ConnectFour
 
+<<<<<<< HEAD
 
 # Activité 1
 ## Partie 1
 ### Tache 1.1
+=======
+
+>>>>>>> 02c0d497d1cb38ce5684e9f7875b7cdddb16267e
 1/ Les dimensions d'un plateau: 3D array (6,7,2) (rows, cols, channels)
 
 2/ Un agent gagne la partie s'il aligne 4 de ses pions, il gagne 1 point et son adversaire perd un point ou si l'adversaire fait une action illégale: il gagne 0 point et l'advesaire perd un point.
@@ -13,6 +17,7 @@ ConnectFour
 
 4/ Un joueur ne peut pas ajouter de pion dans un colonne pleine.
 
+<<<<<<< HEAD
 5/ Le jeu se termine quand: Un joueur a 4 pions alignés ou les 7 colonnes sont remplies .
 
 ### Tache 1.2
@@ -79,3 +84,4 @@ return "pas encore de victoire"
 classe Agent :
 attributs : __init__ , ?????
 méthodes : choix de l'action, __init__, ?????
+=======
