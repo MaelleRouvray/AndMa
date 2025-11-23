@@ -72,9 +72,9 @@ else:
 ### Tache2.1
 1/ 'player_0' et 'player_1'  
 2/ action est un set d'entiers de 0 à 6. Elle représente les colonnes où le jeton peut être placé. ?  
-3/ env.agent_iter():  
-   env.step(action):  
-4/   
+3/ env.agent_iter():  ?????????????
+   env.step(action):  on met une pièce à la position souhaitée (action) sur board
+4/ env.last () renvoie : observation, reward, termination, truncation, info
 5/  
 6/ action_mask regroupe les actions disponibles pour l'agent. C'est un vecteur binaire où chaque valeur indique si l'action est légale ou non. Si ce n'est pas le tour de l'agent, le vecteur est zéro. Il permet à l'agent de ne pas faire d'action illégale et donc de perdre des points.  
 
