@@ -3,7 +3,7 @@ ConnectFour
 
 # Activité 1
 ## Partie 1
-tache 1.1
+### Tache 1.1
 
 1/ Les dimensions d'un plateau: 3D array (6,7,2) (rows, cols, channels)
 
@@ -19,35 +19,35 @@ tache 1.1
     les 7 colonnes sont remplies .
 
 
-tache 1.2
-1/
-|_|_|_|_|_|_|_|
-|_|_|_|_|_|_|_|
-|_|_|_|X|_|_|_|
-|_|_|O|X|_|_|_|
-|_|O|X|X|_|_|_|     verticale
-|O|X|O|X|O|_|_| 
+### Tache 1.2
+1/  
+| _ | _ | _ | _ | _ | _ | _ |  
+| _ | _ | _ | _ | _ | _ | _ |  
+| _ | _ | _ | X | _ | _ | _ |  
+| _ | _ | 0 | X | _ | _ | _ |  
+| _ | 0 | X | X | _ | _ | _ |     verticale  
+| 0 | X | 0 | X | 0 | _ | _ |   
 
-|_|_|_|_|_|_|_|  
-|_|_|_|_|_|_|_|
-|_|_|_|X|_|_|_|
-|_|_|O|X|_|_|_|
-|_|O|X|O|_|_|_|     horizontale
-|O|X|X|X|X|_|_| 
+| _ | _ | _ | _ | _ | _ | _ |  
+| _ | _ | _ | _ | _ | _ | _ |  
+| _ | _ | _ | X | _ | _ | _ |  
+| _ | _ | 0 | X | _ | _ | _ |  
+| _ | 0 | X | 0 | _ | _ | _ |     horizontale  
+| 0 | X | X | X | X | _ | _ |   
 
-|_|_|_|_|_|_|_|  
-|_|X|_|_|_|_|_|
-|_|0|X|X|_|_|_|
-|_|0|O|X|_|_|_|     diagonale gauche
-|_|O|X|X|X|_|_|
-|O|X|O|X|O|0|_| 
+| _ | _ | _ | _ | _ | _ | _ |   
+| _ | X | _ | _ | _ | _ | _ |  
+| _ | 0 | X | X | _ | _ | _ |  
+| _ | 0 | 0 | X | _ | _ | _ |      diagonale gauche  
+| _ | 0 | X | X | X | _ | _ |  
+| 0 | X | 0 | X | 0 | 0 | _ |   
 
-|_|_|_|_|_|_|_|  
-|_|_|_|_|_|_|_|
-|_|_|_|X|X|_|_|
-|_|_|O|X|0|_|_|
-|_|O|X|O|0|_|_|     diagonale droite
-|O|X|O|X|O|_|_| 
+| _ | _ | _ | _ | _ | _ | _ |    
+| _ | _ | _ | _ | _ | _ | _ |  
+| _ | _ | _ | X | X | _ | _ |  
+| _ | _ | 0 | X | 0 | _ | _ |  
+| _ | 0 | X | 0 | 0 | _ | _ |     diagonale droite  
+| 0 | X | 0 | X | 0 | _ | _ |   
 
 2/ 8 directions doivent être vérifiées pour une victoire.
 
@@ -68,6 +68,82 @@ if longueur==4 :
 else:
     return "pas  encore de victoire"
 
+
+
+## Partie 2 
+### Tache 2.1
+1/ 'player_0' et 'player_1'  
+2/ action est un set d'entiers de 0 à 6. Elle représente les colonnes où le jeton peut être placé. ?  
+3/ env.agent_iter():  ?????????????  
+   env.step(action):  on met une pièce à la position souhaitée (action) sur board  
+   4/ env.last () renvoie : observation, reward, termination, truncation, info  
+5/  
+6/ action_mask regroupe les actions disponibles pour l'agent. C'est un vecteur binaire où chaque valeur indique si l'action est légale ou non. Si ce n'est pas le tour de l'agent, le vecteur est zéro. Il permet à l'agent de ne pas faire d'action illégale et donc de perdre des points.  
+
+### Tache 2.2
+1/ Le tableau d'observation est un tableau 2 * 6 lignes * 7 colonnes.  
+2/ premier tableau de 6*7 représente le plateau du joueur player_0 et le deuxième tableau représente le plateau du joueur player_1.  
+3/ 0 ou 1?  
+
+### Tache 2.3
+```from pettingzoo.classic import connect_four_v3
+import numpy as np
+
+def print_board(observation):
+    """
+    Print a human-readable version of the board
+
+    observation: numpy array of shape (6, 7, 2)
+        observation[:,:,0] = current player's pieces
+        observation[:,:,1] = opponent's pieces
+    """
+
+    jeu_play=observation[:,:,0]
+    jeu_adv=observation[:,:,1]
+
+    n,m=jeu_play.shape
+    rep=""
+    for i in range(n):
+        for j in range(m):
+            if jeu_play[i,j]==1:
+                rep+="X "
+            elif jeu_adv[i,j]==1:
+                rep+="O "
+            else:
+                rep+=". "
+        print(rep)
+        rep=""
+    # TODO: Implement this function
+    # Hint: Loop through rows and columns
+    # Use symbols like 'X', 'O', and '.' for current player, opponent, and empty
+    pass
+# Test your function
+env = connect_four_v3.env()
+env.reset(seed=42)
+
+for agent in env.agent_iter():
+    observation, reward, termination, truncation, info = env.last()
+
+    if termination or truncation:
+        break
+
+    print(f"\nAgent: {agent}")
+    print_board(observation['observation'])
+
+    # Make a few moves to see the board change
+    env.step(3)
+    if agent == env.agents[0]:
+        break
+
+env.close()
+```
+
+
+## Partie 3
+### Tache 3.3 
+classe Agent :  
+attributs : __init__ , ?????  
+méthodes : choix de l'action, __init__, ?????
 
     # AndMa
 ConnectFour
