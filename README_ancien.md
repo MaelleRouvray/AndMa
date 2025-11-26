@@ -84,4 +84,6 @@ return "pas encore de victoire"
 classe Agent :
 attributs : __init__ , ?????
 méthodes : choix de l'action, __init__, ?????
-=======
+
+    # AndMa
+ConnectFour
