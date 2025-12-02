@@ -1,5 +1,6 @@
-# test avec deux agents random
+# test avec un agent random VS un agent smart
 import random_agent as rd_ag
+import smart_agent as sm_ag
 
 from pettingzoo.classic import connect_four_v3
 
@@ -29,7 +30,7 @@ def multi_play(num_games):
         env.reset(seed=42)
 
         player0 = rd_ag.RandomAgent(env,"player_0")
-        player1 = rd_ag.RandomAgent(env,"player_1")
+        player1 = sm_ag.SmartAgent(env,"player_1")
 
         agents = {"player_0": player0,"player_1": player1}
 
@@ -52,7 +53,10 @@ def multi_play(num_games):
             else:
                 # Take a random valid action
                 action_mask = observation["action_mask"]
-                action = agents[agent].choose_action_manual(observation, reward, termination, truncation, info, action_mask)
+                if agent == "player_0":
+                    action = agents[agent].choose_action_manual(observation, reward, termination, truncation, info, action_mask)
+                if agent == "player_1":
+                    action = agents[agent].choose_action(observation, reward, termination, truncation, info, action_mask)
                 print(f"{agent} plays column {action}")
                 nb_coups += 1
 
@@ -66,11 +70,4 @@ def multi_play(num_games):
     print(f"nb victoires player0 : {vic_player0}, nb victoires player1 : {vic_player1},nb de coups par partie : {list_coups} , nb de matchs nuls : {egalite}")
     return vic_player0, vic_player1, list_coups, egalite 
 
-
-# #print(multi_play(100))
-# L = [12, 10, 28, 26, 29, 25, 31, 23, 14, 27, 16, 21, 13, 18, 7, 31, 30, 21, 12, 25, 24, 16, 37, 15, 19, 28, 13, 27, 22, 26, 19, 19, 19, 24, 22, 28, 38, 22, 26, 16, 11, 24, 11, 22, 32, 21, 18, 17, 26, 9, 37, 21, 14, 21, 24, 22, 17, 22, 29, 11, 29, 13, 23, 19, 27, 36, 12, 9, 21, 19, 22, 28, 36, 7, 13, 23, 9, 16, 34, 15, 14, 21, 13, 26, 17, 19, 15, 11, 21, 34, 26, 25, 31, 24, 34, 21, 18, 18, 29, 29]
-# print(len(L))
-# import numpy as np
-# print(np.mean(L))
-# print(max(L))
-# print(min(L))
+print(multi_play(1))
