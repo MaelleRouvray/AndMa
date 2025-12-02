@@ -110,6 +110,7 @@ class SmartAgent:
                 return i
         return None
 
+
     def _check_win_from_position(self, board, row, col, channel):
         """
         Check if placing a piece at (row, col) would create 4 in a row
@@ -125,71 +126,30 @@ class SmartAgent:
         """
         # TODO: Check all 4 directions: horizontal, vertical, diagonal /, diagonal \
         # Hint: Count consecutive pieces in both directions from (row, col)
-        # horizontal : board[row,col,channel] -> board[row,col+-1,channel]
-        # vertical : board[row,col,channel] -> board[row+-1,col,channel]
-        # diagonal / : board[row,col,channel] -> board[row+1,col+1,channel]
-        #              board[row,col,channel] -> board[row-1,col-1,channel]
-        # diagonal \ : board[row,col,channel] -> board[row+1,col-1,channel]
-        #              board[row,col,channel] -> board[row-1,col+1,channel]
+
+        directions = [ (0,1),(1,0),(-1,1),(1,1)]
         col_init = col
         row_init = row
-    
-        # direction horizontale
-        longueur = 1
-        while board[row,col+1,channel] == 1:
-            longueur += 1
-            col = col+1
-        col = col_init
-        row = row_init
-        while board[row,col-1,channel] == 1:
-            longueur += 1
-            col = col-1
-        
-        if longueur == 4:
-            return True
 
-        # direction verticale
-        longueur = 1
-        while board[row+1,col,channel] == 1:
-            longueur += 1
-            col = col+1
-        col = col_init
-        row = row_init
-        while board[row-1,col,channel] == 1:
-            longueur += 1
-            col = col-1
-        
-        if longueur == 4:
-            return True
+        for dir_row,dir_col in directions:
+            longueur = 1
+            # vers avant
+            col = col_init + dir_col
+            row = row_init + dir_row
+            while board[row,col,channel] == 1:
+                longueur += 1
+                col += dir_col
+                row += dir_row
 
-        # direction diagonale /
-        longueur = 1
-        while board[row+1,col+1,channel] == 1:
-            longueur += 1
-            col = col+1
-        col = col_init
-        row = row_init
-        while board[row-1,col-1,channel] == 1:
-            longueur += 1
-            col = col-1
-        
-        if longueur == 4:
-            return True
+            #vers arrière
+            col = col_init - dir_col
+            row = row_init - dir_row
+            while board[row,col,channel] == 1:
+                longueur += 1
+                col -=dir_col
+                row -=dir_row
 
-
-        # direction diagonale \
-        longueur = 1
-        while board[row+1,col-1,channel] == 1:
-            longueur += 1
-            col = col+1
-        col = col_init
-        row = row_init
-        while board[row-1,col+1,channel] == 1:
-            longueur += 1
-            col = col-1
-        
-        if longueur == 4:
-            return True
-
+            if longueur >= 4:
+                return True
         
         return False
