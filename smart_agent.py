@@ -70,29 +70,6 @@ class SmartAgent:
                 valid_actions.append(i)
         return valid_actions
 
-    def _find_winning_move(self, observation, valid_actions, channel):
-        """
-        Find a move that creates 4 in a row for the specified player
-
-        Parameters:
-            observation: numpy array (6, 7, 2) - current board state
-            valid_actions: list of valid column indices
-            channel: 0 for current player, 1 for opponent
-
-        Returns:
-            column index (int) if winning move found, None otherwise
-        """
-        # TODO: For each valid action, check if it would create 4 in a row
-        # Hint: Simulate placing the piece, then check for wins
-    
-        for col in valid_actions:
-            row = _get_next_row(self,observation,col)
-            if _check_win_from_position(self,observation,row,col,channel):
-                return col
-        return None
-            
-
-
 
     def _get_next_row(self, board, col):
         """
@@ -111,6 +88,9 @@ class SmartAgent:
         return None
 
 
+
+
+
     def _check_win_from_position(self, board, row, col, channel):
         """
         Check if placing a piece at (row, col) would create 4 in a row
@@ -127,7 +107,7 @@ class SmartAgent:
         # TODO: Check all 4 directions: horizontal, vertical, diagonal /, diagonal \
         # Hint: Count consecutive pieces in both directions from (row, col)
 
-        directions = [ (0,1),(1,0),(-1,1),(1,1)]
+        directions = [(0,1),(1,0),(-1,1),(1,1)]
         col_init = col
         row_init = row
 
@@ -136,7 +116,7 @@ class SmartAgent:
             # vers avant
             col = col_init + dir_col
             row = row_init + dir_row
-            while board[row,col,channel] == 1:
+            while 0<=row<6 and 0<=col<7 and board[row,col,channel] == 1:
                 longueur += 1
                 col += dir_col
                 row += dir_row
@@ -144,7 +124,7 @@ class SmartAgent:
             #vers arrière
             col = col_init - dir_col
             row = row_init - dir_row
-            while board[row,col,channel] == 1:
+            while 0<=row<6 and 0<=col<7 and board[row,col,channel] == 1:
                 longueur += 1
                 col -=dir_col
                 row -=dir_row
@@ -153,3 +133,29 @@ class SmartAgent:
                 return True
         
         return False
+
+
+
+    def _find_winning_move(self, observation, valid_actions, channel):
+        """
+        Find a move that creates 4 in a row for the specified player
+
+        Parameters:
+            observation: numpy array (6, 7, 2) - current board state
+            valid_actions: list of valid column indices
+            channel: 0 for current player, 1 for opponent
+
+        Returns:
+            column index (int) if winning move found, None otherwise
+        """
+        # TODO: For each valid action, check if it would create 4 in a row
+        # Hint: Simulate placing the piece, then check for wins
+        board = observation["observation"]
+        for col in valid_actions:
+            row = self._get_next_row(board,col)
+            if self._check_win_from_position(board,row,col,channel):
+                return col
+        return None
+            
+
+
