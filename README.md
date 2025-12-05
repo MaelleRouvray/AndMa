@@ -40,7 +40,7 @@ ConnectFour
         . X . . . . .  
         . 0 X X . . .  
         . 0 0 X . . .  
-        . 0 X X X . .  duiagonale gauche
+        . 0 X X X . .  diagonale gauche
         0 X 0 X 0 0 . 
   
         . . . . . . .  
@@ -145,7 +145,7 @@ env.close()
 
 ## Partie 3
 ### Tache 3.3 
-classe Agent :    
+#### classe Agent :    
 attributs : environnement, nom de joueur  
 méthodes : choix de colonne où placer le jeton (action) (gagner de préférence, bloquer l'adversaire), statistiques (nombre de blocages, de jeux au centre, jeux au hasard)  
 
