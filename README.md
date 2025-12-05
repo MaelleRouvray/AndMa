@@ -20,34 +20,36 @@ ConnectFour
 
 
 ### Tache 1.2
-1/  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | _ | _ | _ |  
-| _ | _ | 0 | X | _ | _ | _ |  
-| _ | 0 | X | X | _ | _ | _ |     verticale  
-| 0 | X | 0 | X | 0 | _ | _ |   
+1/
 
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | _ | _ | _ |  
-| _ | _ | 0 | X | _ | _ | _ |  
-| _ | 0 | X | 0 | _ | _ | _ |     horizontale  
-| 0 | X | X | X | X | _ | _ |   
+        . . . . . . .  
+        . . . . . . .  
+        . . . X . . .  
+        . . 0 X . . .  
+        . 0 X X . . .  verticale
+        0 X 0 X 0 . . 
+   
+        . . . . . . .  
+        . . . . . . .  
+        . . . X . . .  
+        . . 0 X . . .  
+        . 0 X 0 . . .  horizontale
+        0 X X X X . . 
 
-| _ | _ | _ | _ | _ | _ | _ |   
-| _ | X | _ | _ | _ | _ | _ |  
-| _ | 0 | X | X | _ | _ | _ |  
-| _ | 0 | 0 | X | _ | _ | _ |      diagonale gauche  
-| _ | 0 | X | X | X | _ | _ |  
-| 0 | X | 0 | X | 0 | 0 | _ |   
-
-| _ | _ | _ | _ | _ | _ | _ |    
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | X | _ | _ |  
-| _ | _ | 0 | X | 0 | _ | _ |  
-| _ | 0 | X | 0 | 0 | _ | _ |     diagonale droite  
-| 0 | X | 0 | X | 0 | _ | _ |   
+        . . . . . . .  
+        . X . . . . .  
+        . 0 X X . . .  
+        . 0 0 X . . .  
+        . 0 X X X . .  diagonale gauche
+        0 X 0 X 0 0 . 
+  
+        . . . . . . .  
+        . . . . . . .  
+        . . . X X . .  
+        . . 0 X 0 . .  
+        . 0 X 0 0 . .  diagonale droite
+        0 X 0 X 0 . . 
+  
 
 2/ 8 directions doivent être vérifiées pour une victoire.
 
@@ -74,16 +76,18 @@ else:
 ### Tache 2.1
 1/ 'player_0' et 'player_1'  
 2/ action est un set d'entiers de 0 à 6. Elle représente les colonnes où le jeton peut être placé. ?  
-3/ env.agent_iter():  ?????????????  
-   env.step(action):  on met une pièce à la position souhaitée (action) sur board  
+3/ env.agent_iter():  itérateur qui contient le nom des agents qui doivent jouer dans l'ordre dans lequel ils doivent jouer.
+   env.step(action):  on met une pièce à la position souhaitée (action) sur la grille (board) 
    4/ env.last () renvoie : observation, reward, termination, truncation, info  
-5/  
+5/  observation est un  dictionnaire qui contient deux éléments:    
+    - un tableau (6,7,2) représentant la grille de jeu pour chacuns des deux agents,    
+    - une liste action_mask qui représente les indices des colonnes où l'agent peut placer un jeton.
 6/ action_mask regroupe les actions disponibles pour l'agent. C'est un vecteur binaire où chaque valeur indique si l'action est légale ou non. Si ce n'est pas le tour de l'agent, le vecteur est zéro. Il permet à l'agent de ne pas faire d'action illégale et donc de perdre des points.  
 
 ### Tache 2.2
 1/ Le tableau d'observation est un tableau 2 * 6 lignes * 7 colonnes.  
 2/ premier tableau de 6*7 représente le plateau du joueur player_0 et le deuxième tableau représente le plateau du joueur player_1.  
-3/ 0 ou 1?  
+3/ 0 ou 1
 
 ### Tache 2.3
 ```from pettingzoo.classic import connect_four_v3
@@ -141,9 +145,9 @@ env.close()
 
 ## Partie 3
 ### Tache 3.3 
-classe Agent :  
-attributs : __init__ , ?????  
-méthodes : choix de l'action, __init__, ?????
+#### classe Agent :    
+attributs : environnement, nom de joueur  
+méthodes : choix de colonne où placer le jeton (action) (gagner de préférence, bloquer l'adversaire), statistiques (nombre de blocages, de jeux au centre, jeux au hasard)  
 
     # AndMa
 ConnectFour
