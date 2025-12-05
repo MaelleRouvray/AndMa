@@ -5,7 +5,7 @@ This agent uses rule-based heuristics to play strategically.
 """
 
 import random
-
+from loguru import logger
 
 class SmartAgent:
     """
@@ -34,25 +34,31 @@ class SmartAgent:
         3. Play center if available
         4. Random valid move
         """
+        
         # Get valid actions
         valid_actions = self._get_valid_actions(action_mask)
 
         # Rule 1: Try to win
         winning_move = self._find_winning_move(observation, valid_actions, channel=0)
         if winning_move is not None:
+            logger.success(f"{self.player_name}: WINNING MOVE -> column {winning_move}")
             return winning_move
 
         # Rule 2: Block opponent
         blocking_move = self._find_winning_move(observation, valid_actions, channel=1)
         if blocking_move is not None:
+            logger.warning(f"{self.player_name}: BLOCKING -> column {blocking_move}")
             return blocking_move
 
         # Rule 3: Prefer center
         if 3 in valid_actions:
+            logger.info(f"{self.player_name}: CENTER PREFERENCE -> column 3")
             return 3
 
         # Rule 4: Random fallback
-        return random.choice(valid_actions)
+        action = random.choice(valid_actions)
+        logger.debug(f"{self.player_name}: RANDOM -> column {action}")
+        return action
 
     def _get_valid_actions(self, action_mask):
         """
@@ -153,7 +159,9 @@ class SmartAgent:
         board = observation["observation"]
         for col in valid_actions:
             row = self._get_next_row(board,col)
-            if self._check_win_from_position(board,row,col,channel):
+            simulated_board=board.copy() #on simule une copie du palteau pour placer un pion et voir si le placement permet de gagner
+            simulated_board[row, col, channel] = 1
+            if self._check_win_from_position(simulated_board,row,col,channel):
                 return col
         return None
             
