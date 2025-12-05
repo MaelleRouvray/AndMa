@@ -25,6 +25,8 @@ def multi_play(num_games):
     board_echec = []
     global_stats = {"win":0, "block":0,"centre":0, "random":0}
 
+    ind=[]###
+
     for i in range(num_games):
         nb_coups = 0
 
@@ -44,8 +46,11 @@ def multi_play(num_games):
                 action = None
                 if reward == 1:
                     print(f"{agent} wins!")
+                    print("###########################")
+                    print(i+1)
                     if agent == "player_0" : 
                         vic_player0 +=1
+                        ind.append(i) ###
                         board_echec.append(board[:,:,0].copy())
                         board_echec.append(board[:,:,1].copy())
                     else :
@@ -74,7 +79,7 @@ def multi_play(num_games):
         env.close()
         # le test s'effectue bien sans problèmes , une partie se terrmine en peu de coups (environ 10 coups par joueur)
         list_coups.append(nb_coups)
-    print(f"nb victoires player0 : {vic_player0}, nb victoires player1 : {vic_player1},nb de coups par partie : {list_coups} , nb de matchs nuls : {egalite}")
+    print(f"nb victoires player0 : {vic_player0}, nb victoires player1 : {vic_player1},nb de coups par partie : {list_coups} , nb de matchs nuls : {egalite}, ind={ind}")
     print("Efficacité de la stratégie : ", global_stats)
     return vic_player0, vic_player1, list_coups, egalite, board_echec
 
@@ -87,3 +92,4 @@ for i in range (len(board_echec)):
         board_echec[i][board_echec[i] == 1] = 2
         new_board_echec.append(board_echec[i-1]+board_echec[i])
 print(new_board_echec)
+#print(board_echec)
