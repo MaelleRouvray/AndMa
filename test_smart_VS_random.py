@@ -4,7 +4,7 @@ import smart_agent as sm_ag
 
 from pettingzoo.classic import connect_four_v3
 
-def multi_play(num_games):  
+def multi_play(num_games): 
     """
         Renvoie les statistiques sur les parties jouées
 
