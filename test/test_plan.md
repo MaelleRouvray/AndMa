@@ -13,7 +13,7 @@
     -> utiliser tracemalloc pour mesurer l'utilisation de la mémoire < 10 MB
 
 # Tests stratégiques:
-    -> lancer un grand nombre de parties (>80%) et vérifier que la proportion de victoire est élevée.
+    -> lancer un grand nombre de parties et vérifier que la proportion de victoire est supérieure à 80% .
     -> détecte une victoire immédiate
     -> pré-enregistrer un certain nombre d'états comme "menaces évidentes" et vérifier que l'agent bloque bien la menace (principalement 3 pions alignés)
     -> l'agent choisit la victoire plutôt que de bloquer son adversaire quand les deux cas se présentent simultanément
@@ -51,7 +51,7 @@
         . . . . . . .
         . . . . . . .
         . . X 0 . . .
-        . X X X . . .
+        0 X X X . . .
         X 0 0 0 . . .   <- 3 alignés en ligne pour l'adversaire, 3 alignés en diagonale pour l'agent 
     
     Attendu: le joueur joue la colonne 3
