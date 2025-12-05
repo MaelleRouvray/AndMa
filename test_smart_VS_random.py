@@ -22,11 +22,13 @@ def multi_play(num_games):
     vic_player1 = 0
     egalite = 0
     list_coups = []
+    board_echec = []
+    global_stats = {"win":0, "block":0,"centre":0, "random":0}
 
     for i in range(num_games):
         nb_coups = 0
 
-        env = connect_four_v3.env(render_mode="human") # ou render_mode="rdb_array" ou bien None
+        env = connect_four_v3.env(render_mode=None) # ou render_mode="rdb_array" ou bien None
         env.reset(seed=42)
 
         player0 = rd_ag.RandomAgent(env,"player_0")
@@ -36,6 +38,7 @@ def multi_play(num_games):
 
         for agent in env.agent_iter():
             observation, reward, termination, truncation, info = env.last()
+            board = observation["observation"]
 
             if termination or truncation:
                 action = None
@@ -43,6 +46,8 @@ def multi_play(num_games):
                     print(f"{agent} wins!")
                     if agent == "player_0" : 
                         vic_player0 +=1
+                        board_echec.append(board[:,:,0].copy())
+                        board_echec.append(board[:,:,1].copy())
                     else :
                         vic_player1 +=1
 
@@ -61,6 +66,8 @@ def multi_play(num_games):
                 nb_coups += 1
 
             env.step(action)
+        for k in global_stats :
+            global_stats[k] += player1.stats[k]
             
 
         #input("Press Enter to close...")
@@ -68,6 +75,15 @@ def multi_play(num_games):
         # le test s'effectue bien sans problèmes , une partie se terrmine en peu de coups (environ 10 coups par joueur)
         list_coups.append(nb_coups)
     print(f"nb victoires player0 : {vic_player0}, nb victoires player1 : {vic_player1},nb de coups par partie : {list_coups} , nb de matchs nuls : {egalite}")
-    return vic_player0, vic_player1, list_coups, egalite 
+    print("Efficacité de la stratégie : ", global_stats)
+    return vic_player0, vic_player1, list_coups, egalite, board_echec
 
-print(multi_play(1))
+#print(multi_play(100))
+vic_player0, vic_player1, list_coups, egalite, board_echec = multi_play(100)
+
+new_board_echec = []
+for i in range (len(board_echec)):
+    if i%2 == 1 :  # impair
+        board_echec[i][board_echec[i] == 1] = 2
+        new_board_echec.append(board_echec[i-1]+board_echec[i])
+print(new_board_echec)
