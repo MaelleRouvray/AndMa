@@ -20,34 +20,36 @@ ConnectFour
 
 
 ### Tache 1.2
-1/  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | _ | _ | _ |  
-| _ | _ | 0 | X | _ | _ | _ |  
-| _ | 0 | X | X | _ | _ | _ |     verticale  
-| 0 | X | 0 | X | 0 | _ | _ |   
+1/
 
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | _ | _ | _ |  
-| _ | _ | 0 | X | _ | _ | _ |  
-| _ | 0 | X | 0 | _ | _ | _ |     horizontale  
-| 0 | X | X | X | X | _ | _ |   
+        . . . . . . .  
+        . . . . . . .  
+        . . . X . . .  
+        . . 0 X . . .  
+        . 0 X X . . .  verticale
+        0 X 0 X 0 . . 
+   
+        . . . . . . .  
+        . . . . . . .  
+        . . . X . . .  
+        . . 0 X . . .  
+        . 0 X 0 . . .  horizontale
+        0 X X X X . . 
 
-| _ | _ | _ | _ | _ | _ | _ |   
-| _ | X | _ | _ | _ | _ | _ |  
-| _ | 0 | X | X | _ | _ | _ |  
-| _ | 0 | 0 | X | _ | _ | _ |      diagonale gauche  
-| _ | 0 | X | X | X | _ | _ |  
-| 0 | X | 0 | X | 0 | 0 | _ |   
-
-| _ | _ | _ | _ | _ | _ | _ |    
-| _ | _ | _ | _ | _ | _ | _ |  
-| _ | _ | _ | X | X | _ | _ |  
-| _ | _ | 0 | X | 0 | _ | _ |  
-| _ | 0 | X | 0 | 0 | _ | _ |     diagonale droite  
-| 0 | X | 0 | X | 0 | _ | _ |   
+        . . . . . . .  
+        . X . . . . .  
+        . 0 X X . . .  
+        . 0 0 X . . .  
+        . 0 X X X . .  duiagonale gauche
+        0 X 0 X 0 0 . 
+  
+        . . . . . . .  
+        . . . . . . .  
+        . . . X X . .  
+        . . 0 X 0 . .  
+        . 0 X 0 0 . .  diagonale droite
+        0 X 0 X 0 . . 
+  
 
 2/ 8 directions doivent être vérifiées pour une victoire.
 
@@ -143,9 +145,9 @@ env.close()
 
 ## Partie 3
 ### Tache 3.3 
-classe Agent :  
-attributs : __init__ ,   
-méthodes : choix de l'action, __init__, ?????
+classe Agent :    
+attributs : environnement, nom de joueur  
+méthodes : choix de colonne où placer le jeton (action) (gagner de préférence, bloquer l'adversaire), statistiques (nombre de blocages, de jeux au centre, jeux au hasard)  
 
     # AndMa
 ConnectFour
