@@ -85,7 +85,7 @@ else:
 ### Tache 2.2
 1/ Le tableau d'observation est un tableau 2 * 6 lignes * 7 colonnes.  
 2/ premier tableau de 6*7 représente le plateau du joueur player_0 et le deuxième tableau représente le plateau du joueur player_1.  
-3/ 0 ou 1?  
+3/ 0 ou 1
 
 ### Tache 2.3
 ```from pettingzoo.classic import connect_four_v3
@@ -144,7 +144,7 @@ env.close()
 ## Partie 3
 ### Tache 3.3 
 classe Agent :  
-attributs : __init__ , ?????  
+attributs : __init__ ,   
 méthodes : choix de l'action, __init__, ?????
 
     # AndMa
