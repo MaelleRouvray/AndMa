@@ -21,8 +21,13 @@ class SmartAgent:
             player_name: Optional name for the agent
         """
         self.env = env
-        self.action_space = env.action_space(env.agents[0])
+        #self.action_space = env.action_space(env.agents[0])
         self.player_name = player_name or "SmartAgent"
+        self.stats = {"win":0, "block":0,"centre":0, "random":0}
+
+    def _get_action_space(self):
+        """Accede a l'espace d'action seulement quand c'est necessaire."""
+        return self.env.action_space(self.env.agents[0])
 
     def choose_action(self, observation, reward=0.0, terminated=False, truncated=False, info=None, action_mask=None):
         """
@@ -41,22 +46,26 @@ class SmartAgent:
         # Rule 1: Try to win
         winning_move = self._find_winning_move(observation, valid_actions, channel=0)
         if winning_move is not None:
+            self.stats["win"] += 1
             logger.success(f"{self.player_name}: WINNING MOVE -> column {winning_move}")
             return winning_move
 
         # Rule 2: Block opponent
         blocking_move = self._find_winning_move(observation, valid_actions, channel=1)
         if blocking_move is not None:
+            self.stats["block"] += 1
             logger.warning(f"{self.player_name}: BLOCKING -> column {blocking_move}")
             return blocking_move
 
         # Rule 3: Prefer center
         if 3 in valid_actions:
+            self.stats["centre"] += 1
             logger.info(f"{self.player_name}: CENTER PREFERENCE -> column 3")
             return 3
 
         # Rule 4: Random fallback
         action = random.choice(valid_actions)
+        self.stats["random"] += 1
         logger.debug(f"{self.player_name}: RANDOM -> column {action}")
         return action
 
