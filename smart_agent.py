@@ -129,20 +129,20 @@ class SmartAgent:
         for dir_row,dir_col in directions:
             longueur = 1
             # vers avant
-            col = col_init + dir_col
-            row = row_init + dir_row
-            while 0<=row<6 and 0<=col<7 and board[row,col,channel] == 1:
+            c = col_init + dir_col
+            r = row_init + dir_row
+            while 0 <= r < 6 and 0 <= c < 7 and board[r,c,channel] == 1:
                 longueur += 1
-                col += dir_col
-                row += dir_row
+                c += dir_col
+                r += dir_row
 
             #vers arrière
-            col = col_init - dir_col
-            row = row_init - dir_row
-            while 0<=row<6 and 0<=col<7 and board[row,col,channel] == 1:
+            c = col_init - dir_col
+            r = row_init - dir_row
+            while 0 <= r < 6 and 0 <= c < 7 and board[r,c,channel] == 1:
                 longueur += 1
-                col -=dir_col
-                row -=dir_row
+                c -= dir_col
+                r -= dir_row
 
             if longueur >= 4:
                 return True
