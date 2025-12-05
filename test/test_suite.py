@@ -1,55 +1,71 @@
-# tests stratégiques :
+## Tests stratégiques :
 
 import smart_agent as sm_ag
-import test_smart_agent as test_sm_ag
+from test_smart_VS_random import multi_play
+import numpy as np
 import pytest
 from pettingzoo.classic import connect_four_v3
 
 @pytest.fixture
-
 def agent():
-    env=connect_four_v3.env(render_mode="human")
+    """Fixture qui fournit une instance de SmartAgent à chaque test"""
+    env=connect_four_v3.env(render_mode="None")
+    env.reset()
     return sm_ag.SmartAgent(env)
 
 
-# gagne contre un agent aléatoire : 
-# -> lancer un grand nombre de parties et vérifier que la proportion de victoire est supérieure à 80% .
-def test_multi_play(agent):
-    assert agent.test_sm_ag.multi_play(100)[2] >= 80
 
-# bloque les menaces évidentes 
-# pré-enregistrer un certain nombre d'états comme "menaces évidentes" et vérifier que l'agent bloque bien la menace (principalement 3 pions alignés)
-def test_bloc_menace(agent): 
-    obs = {"observations" : np.zeros(6,7,2)}
-    obs["observations"][0,0,1]= 1 
-    obs["observations"][0,1,1]= 1 
-    obs["observations"][0,2,1]= 1 
-    action_mask = [0,1,2,3,4,5,6]
-    action = agent.choose_action(obseravtion = obs, action_mask = action_mask)
+def test_taux_victoire(agent):
+    """Test qui vérifie si smart agent gagne contre un agent aléatoire
+        La proportion de victoire de smart agent doit être supérieure à 80%
+    """
+    num_games = 20
+    vic0, vic1, coups, egalite = multi_play(num_games)
+    assert vic0 + vic1 + egalite == num_games  # toutes les parties se terminent
+
+    taux_vic1 = vic1 / num_games
+    assert taux_vic1 >= 0.8
+    
+
+def test_block_menace(agent): 
+    """ Test qui vérifie si smart agent bloque les menaces évidentes """
+    obs = {"observation" : np.zeros((6,7,2))}
+    board = obs["observation"]
+    board[5,0,1]= 1 
+    board[5,1,1]= 1 
+    board[5,2,1]= 1 
+    action_mask = [1,1,1,1,1,1,1]
+    action = agent.choose_action(observation = obs, action_mask = action_mask)
     assert action == 3
 
-# détecte une victoire immédiate 
+
 def test_victoire_immediate(agent):
-    obs = {"observations" : np.zeros(6,7,2)}
-    obs["observations"][0,0,0]= 1 
-    obs["observations"][0,1,0]= 1 
-    obs["observations"][0,2,0]= 1 
-    action_mask = [0,1,2,3,4,5,6]
+    """ Teste si smart agent détecte une victoire immédiate """
+    obs = {"observation" : np.zeros((6,7,2))}
+    board = obs["observation"]
+    board[5,0,0]= 1 
+    board[5,1,0]= 1 
+    board[5,2,0]= 1 
+    action_mask = [1,1,1,1,1,1,1]
     action = agent.choose_action(observation=obs, action_mask=action_mask)
     assert action == 3
 
-# choisit la victoire plutot que bloquer l'adversaire quand les 2 cas se présentent en même temps
 def test_victoire_over_block(agent):
-    obs = {"observations" : np.zeros(6,7,2)}
-    obs["observations"][0,0,0]= 1 
-    obs["observations"][1,1,0]= 1 
-    obs["observations"][2,2,0]= 1
-    obs["observations"][1,2,0]= 1 
-    obs["observations"][1,3,0]= 1 
-    obs["observations"][0,1,1]= 1 
-    obs["observations"][0,2,1]= 1 
-    obs["observations"][0,3,1]= 1 
-    obs["observations"][2,3,1]= 1 
-    action_mask = [0,1,2,3,4,5,6]
+    """ Teste si smart agent choisit la victoire plutot que le blocage de l'adversaire 
+        si les deux situations se présentent
+    """ 
+    obs = {"observation" : np.zeros((6,7,2))}
+    board = obs["observation"]
+    board[5,0,0]= 1 
+    board[4,1,0]= 1 
+    board[3,2,0]= 1
+    board[4,2,0]= 1 
+    board[4,3,0]= 1 
+    board[5,1,1]= 1 
+    board[5,2,1]= 1 
+    board[5,3,1]= 1 
+    board[4,0,1]= 1
+    board[3,3,1]= 1 
+    action_mask = [1,1,1,1,1,1,1]
     action = agent.choose_action(observation=obs, action_mask=action_mask)
     assert action == 3
