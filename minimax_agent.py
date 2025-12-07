@@ -28,7 +28,7 @@ class MinimaxAgent:
         self.player_name = player_name or f"Minimax(d={depth})"
 
 
-    def choose_action(self, observation, reward=0.0, terminated=False, truncated=False, info=None, action_mask=None):
+ def choose_action(self, board, reward=0.0, terminated=False, truncated=False, info=None, action_mask=None):
         """
         Choose action using minimax algorithm
         """
@@ -40,7 +40,7 @@ class MinimaxAgent:
         # Try each valid action
         for action in valid_actions:
             # Simulate the move
-            new_board = self._simulate_move(observation, action, channel=0)
+            new_board = self._simulate_move(board, action, channel=0)
 
             # Evaluate using minimax (opponent's turn, so minimizing)
             value = self._minimax(new_board, self.depth - 1, float('-inf'), float('inf'), False)
@@ -50,6 +50,7 @@ class MinimaxAgent:
                 best_action = action
 
         return best_action if best_action is not None else random.choice(valid_actions)
+
 
 
     def _minimax(self, board, depth, alpha, beta, maximizing):
@@ -156,23 +157,146 @@ class MinimaxAgent:
         score = 0
 
         # Check for wins
-        if eval.has_won(board, channel):
+        if self._check_win(board, channel):
             return 10000
 
-        if eval.has_won(board, 1 - channel):
+        if self._check_win(board, 1 - channel):
             return -10000
 
         # Count 3-in-a-row patterns (without the 4th piece blocked)
-        score += eval.count_three_in_row(board, channel) * 5
+        score += self.count_three_in_row(board, channel) * 5
 
         # Count 2-in-a-row patterns
-        score += eval.count_two_in_row(board, channel) * 2
+        score += self.count_two_in_row(board, channel) * 2
 
         # Prefer center positions
-        score += eval.count_pieces_in_center(board, channel) * 3
+        score += self.count_pieces_in_center(board, channel) * 3
 
         return score
 
+
+def count_three_in_row(self, board, channel):
+        """
+        Count the number of 3-in-a-row patterns
+
+        Returns:
+            the number of 3-in-a-row patterns
+        """
+        nb=0
+        longueur = 0
+        #en ligne
+        for i in range(6):
+            for j in range(7):
+                if board[i, j, channel] == 1:
+                    longueur += 1
+                else:
+                    longueur = 0
+                if longueur == 3:
+                    nb += 1
+            longueur = 0
+        
+        #en colonnes:
+        for j in range(7):
+            for i in range(6):            
+                if board[i, j, channel] == 1:
+                    longueur += 1
+                else:
+                    longueur = 0
+                if longueur == 3:
+                    nb+=1
+            longueur = 0
+        
+        #diagonale /:
+        for i in range(4): 
+            for j in range(5):
+                sum = 0
+                k = 0
+                while board[i+k, j+k, channel] == 1 and i+k < 5 and j+k < 6:
+                    sum += 1
+                    k += 1
+                    if sum == 3:
+                        nb += 1
+                    
+        #diagonale \:
+        for i in range(4): 
+            for j in range(2, 7):
+                sum = 0
+                k = 0
+                while board[i-k, j+k, channel] == 1 and j+k < 6 and i-k>=0:
+                    sum += 1
+                    k += 1
+                    if sum == 3:
+                        nb += 1
+
+        return nb
+    
+
+    def count_two_in_row(self, board, channel):
+        """
+        Count the number of 2-in-a-row patterns
+
+        Returns:
+            the number of 2-in-a-row patterns
+        """
+        nb=0
+        longueur = 0
+        #en ligne
+        for i in range(6):
+            for j in range(7):
+                if board[i, j, channel] == 1:
+                    longueur += 1
+                else:
+                    longueur = 0
+                if longueur == 2:
+                    nb += 1
+            longueur = 0
+        
+        #en colonnes:
+        for j in range(7):
+            for i in range(6):            
+                if board[i, j, channel] == 1:
+                    longueur += 1
+                else:
+                    longueur = 0
+                if longueur == 2:
+                    nb+=1
+            longueur = 0
+        
+        #diagonale /:
+        for i in range(5): 
+            for j in range(6):
+                sum = 0
+                k = 0
+                while board[i+k, j+k, channel] == 1 and i+k < 5 and j+k < 6:
+                    sum += 1
+                    k += 1
+                    if sum == 2:
+                        nb += 1
+                    
+        #diagonale \:
+        for i in range(5): 
+            for j in range(1, 7):
+                sum = 0
+                k = 0
+                while board[i-k, j+k, channel] == 1 and j+k < 6 and i-k>=0: 
+                    sum += 1
+                    k += 1
+                    if sum == 2:
+                        nb += 1
+
+        return nb
+
+
+    def count_pieces_in_center(self, board, channel):
+        """
+        count the number of pieces in the three center columns
+        """
+        nb = 0
+        for col in [2,3,4]:
+            for row in range(6):
+                if board[row, col, channel] == 1:
+                    nb +=1
+        return nb
 
 
     def _check_win(self, board, channel):
@@ -211,7 +335,7 @@ class MinimaxAgent:
             for j in range(4):
                 sum = 0
                 k = 0
-                while board[i+k, j+k, channel] == 1 and i+k < 6 and j+k < 7:
+                while board[i+k, j+k, channel] == 1 and i+k < 5 and j+k < 6:
                     sum += 1
                     k += 1
                     if sum == 4:
@@ -222,7 +346,7 @@ class MinimaxAgent:
             for j in range(3, 7):
                 sum = 0
                 k = 0
-                while board[i-k, j+k, channel] == 1 and i+k < 6 and j-k>=0:
+                while board[i-k, j+k, channel] == 1 and j+k < 6 and i-k>=0:
                     sum += 1
                     k += 1
                     if sum == 4:
